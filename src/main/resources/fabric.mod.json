@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "longer_days",
+	"version": "${version}",
+	"name": "Longer Days",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/longer_days/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"brmv.longer_days.LongerDays"
+		],
+		"client": [
+			"brmv.longer_days.LongerDaysClient"
+		]
+	},
+	"mixins": [
+		"longer_days.mixins.json",
+		{
+			"config": "longer_days.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
