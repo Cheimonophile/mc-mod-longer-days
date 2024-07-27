@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "longer_days",
+	"id": "longer-days",
 	"version": "${version}",
 	"name": "Longer Days",
 	"description": "This is an example description! Tell everyone what your mod is about!",
@@ -12,7 +12,7 @@
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/longer_days/icon.png",
+	"icon": "assets/longer-days/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -23,9 +23,9 @@
 		]
 	},
 	"mixins": [
-		"longer_days.mixins.json",
+		"longer-days.mixins.json",
 		{
-			"config": "longer_days.client.mixins.json",
+			"config": "longer-days.client.mixins.json",
 			"environment": "client"
 		}
 	],

@@ -22,7 +22,7 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"longer_days" {
+		"longer-days" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
