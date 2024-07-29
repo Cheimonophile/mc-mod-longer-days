@@ -1,6 +1,5 @@
 package brmv.longer_days.mixin;
 
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.MutableWorldProperties;
@@ -8,18 +7,27 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.Surrogate;
 
 
 @Mixin(ServerWorld.class)
 public abstract class ServerWorldMixin {
 
-
-    private static final long LENGTH_MODIFIER = 3;
+    /**
+     * <p>
+     *     How frequently to update the time
+     * </p>
+     *
+     * <p>
+     *     e.g. 3 means every third tick will update the time
+     * </p>
+     */
+    @Unique
+    private static final long LENGTH_MOD = 3;
 
     @Shadow
     @Final
@@ -41,13 +49,24 @@ public abstract class ServerWorldMixin {
             if (doDaylightCycle) {
                 long newTimeOfDay = properties.getTimeOfDay();
                 newTimeOfDay -= 1; // undo effect of previous day setting
-                if (properties.getTime() % LENGTH_MODIFIER == 0) {
+                if (properties.getTime() % LENGTH_MOD == 0) {
                     newTimeOfDay += 1;
                 }
                 this.setTimeOfDay(newTimeOfDay);
             }
         }
     }
+
+//    @Inject(at = @At("RETURN"), method = "tickTime")
+//    private void logTickTime(CallbackInfo info) {
+//        LongerDays.LOGGER.info("tickTime");
+//    }
+//
+//    @Inject(at = @At("RETURN"), method = "tick")
+//    private void logTick(CallbackInfo info) {
+//        LongerDays.LOGGER.info("tick");
+//    }
+
 }
 
 
