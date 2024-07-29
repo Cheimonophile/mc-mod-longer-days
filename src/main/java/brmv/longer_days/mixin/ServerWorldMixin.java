@@ -19,11 +19,11 @@ public abstract class ServerWorldMixin {
 
     /**
      * <p>
-     *     How frequently to update the time
+     * How frequently to update the time
      * </p>
      *
      * <p>
-     *     e.g. 3 means every third tick will update the time
+     * e.g. 3 means every third tick will update the time
      * </p>
      */
     @Unique
@@ -36,25 +36,15 @@ public abstract class ServerWorldMixin {
     @Shadow
     public abstract void setTimeOfDay(long timeOfDay);
 
-    @Inject(at = @At("RETURN"), method = "tickTime")
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/MutableWorldProperties;getTimeOfDay()J"), method = "tickTime")
     private void tickTime(CallbackInfo info) {
-
-        // if statements need to be copied from base tickTime to make sure they work with gamerules
-        if (this.shouldTickTime) {
-            var properties = ((WorldMixin) this)
-                    .getProperties();
-            var doDaylightCycle = properties
-                    .getGameRules()
-                    .getBoolean(GameRules.DO_DAYLIGHT_CYCLE);
-            if (doDaylightCycle) {
-                long newTimeOfDay = properties.getTimeOfDay();
-                newTimeOfDay -= 1; // undo effect of previous day setting
-                if (properties.getTime() % LENGTH_MOD == 0) {
-                    newTimeOfDay += 1;
-                }
-                this.setTimeOfDay(newTimeOfDay);
-            }
+        var properties = ((WorldMixin) this).getProperties();
+        long newTimeOfDay = properties.getTimeOfDay();
+        newTimeOfDay -= 1; // undo effect of day setting that's about to happen
+        if (properties.getTime() % LENGTH_MOD == 0) {
+            newTimeOfDay += 1;
         }
+        this.setTimeOfDay(newTimeOfDay);
     }
 
 //    @Inject(at = @At("RETURN"), method = "tickTime")
