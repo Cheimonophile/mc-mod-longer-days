@@ -1,26 +1,24 @@
-package brmv.longer_days.mixin;
+package brmv.longer_days.mixin.client;
+
 
 import brmv.longer_days.LongerDays;
-import net.minecraft.server.world.ServerWorld;
+import brmv.longer_days.mixin.WorldMixin;
+import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-
-@Mixin(ServerWorld.class)
-public abstract class ServerWorldMixin {
+@Mixin(ClientWorld.class)
+public abstract class ClientWorldMixin {
 
     @Shadow
     public abstract void setTimeOfDay(long timeOfDay);
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/MutableWorldProperties;getTimeOfDay()J"), method = "tickTime")
-    private void tickTime(CallbackInfo info) {
+    private void init(CallbackInfo info) {
         var newTimeOfDay = LongerDays.incrementTimeOfDay((WorldMixin) this);
         this.setTimeOfDay(newTimeOfDay);
     }
-
 }
-
-

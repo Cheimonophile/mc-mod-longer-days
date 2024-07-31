@@ -3,7 +3,7 @@
 	"package": "brmv.longer_days.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ExampleClientMixin"
+      "ClientWorldMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
